@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+  <div id="root"></div>
+</body>
+
+<script>
+
+  // state varialbles
+
+  const state = {
+    count: 0,
+  }
+
+
+  //funtions
+
+  function increaseCount() {
+    state.count++;
+    reRender();
+  }
+
+  function buttonComponent(count) {
+    const button = document.createElement('button')
+    button.innerHTML = `Counter ${count}`
+    button.setAttribute('onclick', `increaseCount()`);
+    return button
+  }
+
+
+  //renderer
+  function reRender() {
+    const root = document.getElementById('root')
+    root.innerHTML = '';
+
+    const component = buttonComponent(state.count);
+    root.appendChild(component);
+  }
+
+
+  function onButtonPress() {
+    const currentValue = document.getElementById("btn").innerHTML;
+    console.log(currentValue)
+
+    const currentCounter = currentValue.split(" ")[1];
+
+    const newCounter = parseInt(currentCounter) + 1;
+
+    document.getElementById("btn").innerHTML = "Counter " + newCounter;
+  }
+
+
+  reRender();
+</script>
+
+</html>
