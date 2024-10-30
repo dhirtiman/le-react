@@ -1,39 +1,42 @@
-import { useState, useMemo } from 'react'
-import './App.css'
-import {} from 'react'
+import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
 
 function App() {
-    const [count, setCount] = useState(0)
-    const [value, setValue] = useState(null)
+    const [exchange1Data, setExchange1Data] = useState({})
+    const [exchange2Data, setExchange2Data] = useState({})
+    const [bankData, setBankData] = useState({})
 
-    const sum = useMemo(() => {
-        let temp = 0
-        for (let i = 1; i <= value; i++) {
-            temp += i
-        }
-        return temp
-    }, [value])
+    useEffect(() => {
+        // Some operation to get the data
+        setExchange1Data({
+            returns: 100,
+        })
+    }, [])
 
-    // dsd
-    return (
-        <>
-            <input
-                onChange={(e) => {
-                    setValue(e.target.value)
-                }}
-                value={value}
-            ></input>
+    useEffect(() => {
+        // Some operation to get the data
+        setExchange2Data({
+            returns: 100,
+        })
+    }, [])
 
-            <p>Sum from 1 to {value} is:{sum} </p>
-            <button
-                onClick={() => {
-                    setCount(count + 1)
-                }}
-            >
-                Counter:{count}
-            </button>
-        </>
-    )
+    useEffect(() => {
+        // Some operation to get the data
+        setTimeout(() => {
+            setBankData({
+                income: 100,
+            })
+        }, 1000)
+    }, [])
+    
+    const cryptoReturns = useMemo(() => {
+        console.log('hi there before')
+        return exchange1Data.returns + exchange2Data.returns
+    }, [exchange1Data, exchange2Data])
+
+    const incomeTax = useMemo(()=>{return (cryptoReturns + bankData.income) * 0.3},[cryptoReturns,bankData.income])
+
+    return <div>hi there, your income tax returns are {incomeTax}</div>
 }
 
 export default App
