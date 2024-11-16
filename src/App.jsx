@@ -28,13 +28,13 @@ function App() {
             })
         }, 1000)
     }, [])
-    
+
     const cryptoReturns = useMemo(() => {
         console.log('hi there before')
         return exchange1Data.returns + exchange2Data.returns
     }, [exchange1Data, exchange2Data])
 
-    const incomeTax = useMemo(()=>{return (cryptoReturns + bankData.income) * 0.3},[cryptoReturns,bankData.income])
+    const incomeTax = (cryptoReturns + bankData.income)
 
     return <div>hi there, your income tax returns are {incomeTax}</div>
 }
