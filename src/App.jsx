@@ -1,42 +1,24 @@
-import { useMemo } from 'react'
-import { useEffect, useState } from 'react'
+import './App.css'
+
+import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import Dashboard from './components/Dashboard'
+import Landing from './components/Landing'
+import Header from './components/Header'
 
 function App() {
-    const [exchange1Data, setExchange1Data] = useState({})
-    const [exchange2Data, setExchange2Data] = useState({})
-    const [bankData, setBankData] = useState({})
+    return (
+        <>
 
-    useEffect(() => {
-        // Some operation to get the data
-        setExchange1Data({
-            returns: 100,
-        })
-    }, [])
-
-    useEffect(() => {
-        // Some operation to get the data
-        setExchange2Data({
-            returns: 100,
-        })
-    }, [])
-
-    useEffect(() => {
-        // Some operation to get the data
-        setTimeout(() => {
-            setBankData({
-                income: 100,
-            })
-        }, 1000)
-    }, [])
-
-    const cryptoReturns = useMemo(() => {
-        console.log('hi there before')
-        return exchange1Data.returns + exchange2Data.returns
-    }, [exchange1Data, exchange2Data])
-
-    const incomeTax = (cryptoReturns + bankData.income)
-
-    return <div>hi there, your income tax returns are {incomeTax}</div>
+        <BrowserRouter>
+        <Header></Header>
+            <Routes>
+                <Route path='/' element={<Landing/>}></Route>
+                <Route path='/dashboard' element={<Dashboard/>}></Route>
+            </Routes>
+        </BrowserRouter>
+        </>
+    )
 }
+   
 
 export default App
