@@ -1,94 +1,30 @@
-import { RecoilRoot } from 'recoil'
+import { useRecoilValue } from 'recoil';
 import './App.css'
-import { useRecoilState } from 'recoil'
-import {
-    filteredTodosSelector,
-    filterAtom,
-    todosAtom,
-} from './store/atoms/todo'
-import { useSetRecoilState } from 'recoil'
-import { useRecoilValue } from 'recoil'
-import { useState } from 'react'
+import { jobsAtom, messagingAtom, networkAtom, notificationsAtom } from './store/atoms/linkdn';
 
 function App() {
-    return (
-        <RecoilRoot>
-            <div className="App">
-                <h1>Todos and shi</h1>
-                <br />
-                <AddTodo />
-                <br />
-                <br />
-                <FilterTodo />
-                <Todos />
-            </div>
-        </RecoilRoot>
-    )
-}
 
-function AddTodo() {
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const setTodos = useSetRecoilState(todosAtom)
+    const networkCount = useRecoilValue(networkAtom)
 
-    const addTodo = () => {
-        const id = Math.floor(Math.random() * 1000)
-        const newTodo = {
-            id,
-            title,
-            description,
-        }
-        setTodos((todos) => [...todos, newTodo])
-    }
+
+    const jobsCount = useRecoilValue(jobsAtom);
+    const notificationsCount = useRecoilValue(notificationsAtom);
+    const messagingCount = useRecoilValue(messagingAtom);
+
 
     return (
         <>
-            <input
-                type="text"
-                placeholder="Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
-            <button onClick={addTodo}>Add</button>
+            <button>Home</button>
+
+
+            <button>My network ({ networkCount > 100 ? "99+" : networkCount})</button>
+            <button>Jobs ({ jobsCount })</button>
+            <button>Messaging ({ messagingCount })</button>
+            <button>Notifications ({ notificationsCount })</button> 
+            <button>Me</button>
         </>
     )
 }
 
-function Todos() {
-    const todos = useRecoilValue(filteredTodosSelector)
 
-    return (
-        <>
-            {todos.map((todo) => {
-                return (
-                    <div key={todo.id}>
-                        <h1>{todo.title}</h1>
-                        <p>{todo.description}</p>
-                    </div>
-                )
-            })}
-        </>
-    )
-}
-
-function FilterTodo() {
-    const [filter, setFilter] = useRecoilState(filterAtom)
-    return (
-        <>
-            <input
-                type="text"
-                placeholder="Filter"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-            />
-        </>
-    )
-}
-
-export default App
+export default App;
