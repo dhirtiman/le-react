@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useRecoilValue } from 'recoil'
 import './App.css'
 import {
@@ -9,6 +10,8 @@ import {
 } from './store/atoms/linkdn'
 import { useSetRecoilState } from 'recoil'
 
+
+
 function App() {
     const networkCount = useRecoilValue(networkAtom)
 
@@ -19,28 +22,26 @@ function App() {
 
     return (
         <>
-            <button className="nav-button" style={navButtonStyle}>
-                Home
-            </button>
+            <ButtonThing>Home</ButtonThing>
 
-            <button className="nav-button" style={navButtonStyle}>
+            <ButtonThing>
                 My network ({networkCount > 100 ? '99+' : networkCount})
-            </button>
-            <button className="nav-button" style={navButtonStyle}>
-                Jobs ({jobsCount})
-            </button>
-            <button className="nav-button" style={navButtonStyle}>
-                Notifications ({notificationsCount})
-            </button>
+            </ButtonThing>
+            <ButtonThing>Jobs ({jobsCount})</ButtonThing>
+            <ButtonThing>Notifications ({notificationsCount})</ButtonThing>
 
-            <button className="nav-button" style={navButtonStyle}>
-                Messaging ({messagingCount})
-            </button>
+            <ButtonThing>Messaging ({messagingCount})</ButtonThing>
             <ButtonUpdater />
-            <button className="nav-button" style={navButtonStyle}>
-                Me ({totalNotificationCount})
-            </button>
+            <ButtonThing>Me ({totalNotificationCount})</ButtonThing>
         </>
+    )
+}
+
+function ButtonThing({ children }) {
+    return (
+        <button className=" bg-slate-100 m-1 p-2 cursor-pointer border-2 border-solid rounded-md box-border ">
+            {children}
+        </button>
     )
 }
 
@@ -59,14 +60,5 @@ function ButtonUpdater() {
 }
 
 // css styles
-
-const navButtonStyle = {
-    backgroundColor: '#f0f0f0',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    padding: '10px',
-    margin: '5px',
-    cursor: 'pointer',
-}
 
 export default App
