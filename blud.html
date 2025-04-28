@@ -1,58 +1,34 @@
 <!DOCTYPE html>
 <html>
-
-
+<head>
+  <title>Custom Form</title>
+</head>
 <body>
-  <div id="root"></div>
+  <form id="myForm">
+    <input type="text" name="name" placeholder="Name" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <textarea name="message" placeholder="Your message"></textarea><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('myForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      fetch('https://script.google.com/macros/s/AKfycbwM6dpDuxQLaqPxlySEB_jj5_stAdoFG5Fh4uBXXUdSFmcKlKAlmWMPfAA2CjprjVe1/exec', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => res.text())
+      .then(data => alert(data))
+      .catch(err => alert('Error: ' + err));
+    });
+  </script>
 </body>
-
-<script>
-
-  // state varialbles
-
-  const state = {
-    count: 0,
-  }
-
-
-  //funtions
-
-  function increaseCount() {
-    state.count++;
-    reRender();
-  }
-
-  function buttonComponent(count) {
-    const button = document.createElement('button')
-    button.innerHTML = `Counter ${count}`
-    button.setAttribute('onclick', `increaseCount()`);
-    return button
-  }
-
-
-  //renderer
-  function reRender() {
-    const root = document.getElementById('root')
-    root.innerHTML = '';
-
-    const component = buttonComponent(state.count);
-    root.appendChild(component);
-  }
-
-
-  function onButtonPress() {
-    const currentValue = document.getElementById("btn").innerHTML;
-    console.log(currentValue)
-
-    const currentCounter = currentValue.split(" ")[1];
-
-    const newCounter = parseInt(currentCounter) + 1;
-
-    document.getElementById("btn").innerHTML = "Counter " + newCounter;
-  }
-
-
-  reRender();
-</script>
-
 </html>
