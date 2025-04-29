@@ -1,43 +1,40 @@
-// mouse position shower
+import { useState, useEffect } from 'react'
 
-import { useEffect, useState } from 'react';
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value)
 
-const useMousePosition = () => {
-  const [x,setX] = useState(0);
-  const [y,setY] = useState(0);
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setDebouncedValue(value)
+        }, delay)
 
-  useEffect(()=>{
-    window.addEventListener('mousemove',(e)=>{
-      setX(e.clientX)
-      setY(e.clientY)
-    })
+        return () => clearTimeout(timeout)
+    }, [value, delay])
 
-    return ()=>{
-      window.removeEventListener('mousemove',(e)=>{
-        setX(e.clientX)
-        setY(e.clientY)
-      })
-    }
-  },[])
-
-
-  return [x,y]
+    return debouncedValue
 }
 
+const App = () => {
+    const [inputValue, setInputValue] = useState('')
+    const debouncedValue = useDebounce(inputValue, 500) // 500 milliseconds debounce delay
 
+    // Use the debouncedValue in your component logic, e.g., trigger a search API call via a useEffect
 
+    useEffect(() => {}, [debouncedValue])
 
-
-
-function App(){
-
-  const [x,y] = useMousePosition();
-  
-  return (
-    <>
-      <p>Your mouse position is {x} , {y}</p>
-    </>
-  )
+    return (
+        <>
+            <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Search..."
+            />
+            <div>
+                {debouncedValue}
+            </div>
+        </>
+    )
 }
 
-export default App;
+export default App
